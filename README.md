@@ -228,8 +228,8 @@ chronyc sources
 chronyc tracking | grep Stratum (Должно равняться 5)
 ```
 ### 9. Создание RAID 5 на HQ-SRV
-Для разбиения диска, запускаем fdisk с именем устройства:
 ```bash
+fdisk /dev/sdb sdc sdd (g,n, enter x3, w)
 #Создаем диски, после создания:
 lsblk (Выводит диски)
 ```
