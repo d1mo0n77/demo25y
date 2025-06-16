@@ -411,7 +411,7 @@ au-team.irpo. root.au-team.irpo.
 Systemctl restart bind
 ```
 ### Поднять AD DS в WinSrv
-
+http://xn---220-43dg5d.xn--p1ai/ru/demo-2025/modul-1/modul-1-1
 
 
 
