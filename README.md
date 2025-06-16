@@ -267,7 +267,7 @@ mdadm --detail --scan | awk '/ARRAY/ {print}' >> /etc/mdadm/mdadm.conf
 mkdir /mnt/raid5
 ```
 ```
-/etc/fstab
+nano /etc/fstab
 ```
 ```
 /dev/md0  /mnt/raid5  ext4  defaults  0  0
@@ -277,6 +277,7 @@ mount -a
 ```
 ```
 df -h (Проверяем)
+mdadm -D /dev/md0
 ```
 ### 10. Настройте принт-сервер cups на сервере HQ-SRV. (Если будет работать)
 ### HQ-SRV   
