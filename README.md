@@ -7,30 +7,30 @@ exec bash
 ## 2. Создание связей между машинами
 ### ISP (nmtui)
 ```bash
-isp-hq  172.16.4.1/28
-isp-br  172.16.5.1/28
+isp-hq  172.16.4.1/28 ens34
+isp-br  172.16.5.1/28 ens35
 ```
 ### HQ-RTR (nmtui)
 ```bash
-isp - hq-rtr - 172.16.4.2/28 gateway 172.16.4.1 
-hq - in  192.168.10.1/26
+isp - hq-rtr - 172.16.4.2/28 gateway 172.16.4.1 ens34
+hq - in  192.168.10.1/26 ens35
 ```
 ### BR-RTR (nmtui)
 ```bash
-isp - br-rtr - 172.16.5.2/28 gateway 172.16.5.1 
-br - in 192.168.60.1/27
+isp - br-rtr - 172.16.5.2/28 gateway 172.16.5.1 ens34
+br - in 192.168.60.1/27 ens35
 ```
 ### HQ-SRV (Graphics)
 ```bash
-IP - 192.168.10.2  Маска: 26  Шлюз: 192.168.10.1
+IP - 192.168.10.2  Маска: 26  Шлюз: 192.168.10.1 ens33
 ```
 ### HQ-CLI (Graphics)
 ```bash
-IP - 192.168.10.3  Маска: 28  Шлюз: 192.168.10.1
+IP - 192.168.10.3  Маска: 28  Шлюз: 192.168.10.1 ens34
 ```
 ### BR-SRV (Graphics)
 ```bash
-IP - 192.168.60.2  Маска: 27  Шлюз: 192.168.60.1
+IP - 192.168.60.2  Маска: 27  Шлюз: 192.168.60.1 ens33
 ```
 ### BR-DC (Graphics)
 ```bash
@@ -94,6 +94,7 @@ net ipv4 forwarding = 1
 ```bash
 Название tun1
 mode: GRE
+parent: ens34
 Local: 172.16.5.2
 Remote: 172.16.4.2
 Address: 192.168.0.2/24
@@ -103,6 +104,7 @@ Gateway: 192.168.0.1
 ```bash
 Название tun1
 mode: GRE
+parent: ens34
 Local: 172.16.4.2
 Remote: 172.16.5.2
 Address: 192.168.0.1/24
@@ -208,7 +210,7 @@ show ip ospf neighbor
 ```
 ### 8. Настройка chrony HQ-SRV
 ```bash
-/etc/chrony.conf
+nano /etc/chrony.conf
 ```
 ```
 server 127.0.0.1 iburst prefer
@@ -217,7 +219,7 @@ local stratum 5
 allow 0/0
 ```
 ```
-systemctl enable --now chronyd
+systemctl enable --now chronyd reboot
 ```
 ```
 chronyc sources
@@ -226,6 +228,7 @@ chronyc sources
 chronyc tracking | grep Stratum (Должно равняться 5)
 ```
 ### 9. Создание RAID 5 на HQ-SRV
+Для разбиения диска, запускаем fdisk с именем устройства:
 ```bash
 #Создаем диски, после создания:
 lsblk (Выводит диски)
